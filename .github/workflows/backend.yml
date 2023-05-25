@@ -45,12 +45,41 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - run:
+        name: Install Bundler
+        run: gem install bundler -v 2.2.33
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.6
           bundler-cache: true
-      # Add or replace any other lints here
+      - name: Add node source
+        run: curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+
+      - name: Install System Dependencies
+        run: sudo apt-get update --allow-releaseinfo-change && sudo apt-get install g++ qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x nano libcurl4 libcurl4-openssl-dev libmagickcore-dev libmagickwand-dev imagemagick xvfb nodejs
+
+      - name: Show node version
+        run: node -v
+
+      - name: Show ruby version
+        run: ruby -v
+
+      - name: Install yarn
+        run: sudo npm install --global yarn
+
+      - name: Wait for Database Connection
+        run: dockerize -wait tcp://localhost:3306 -timeout 1m
+
+      - name: Install mysql client
+        run: sudo apt-get update && sudo apt-get install -y default-mysql-client
+
+      - name: Create DB read user
+        run: mysql -h 127.0.0.1 -u root -e "CREATE USER 'ezrirzreadonly'@'127.0.0.1';"
+      - name: Grant access
+        run: mysql -h 127.0.0.1 -u root -e "GRANT SELECT, SHOW VIEW ON ezrirx_test.* TO 'ezrirzreadonly'@'127.0.0.1';"
+      - name: Flush privileges for read DB user
+        run: mysql -h 127.0.0.1 -u root -e "FLUSH PRIVILEGES;"
       - name: Security audit dependencies
         run: bin/bundler-audit --update
       - name: Lint Ruby files
