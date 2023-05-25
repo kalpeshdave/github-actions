@@ -1,12 +1,20 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '3.0.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.1'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+gem 'jquery-rails'
+# gem 'sass-rails', '~> 6'
+gem 'sassc-rails'
+gem 'uglifier', '>= 1.3.0'
+gem 'bourbon', '7.0.0'
+gem 'coffee-rails', '~> 5'
+gem 'sprockets-es6'
+gem 'thor', '1.0.0'
+gem 'premailer-rails'
+gem 'mysql2'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
@@ -27,6 +35,11 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+
+# Code Quality
+gem 'rubocop', '~> 1.7.0'
+gem 'rubocop-performance', '~> 1.17.1'
+gem 'rubocop-rails', '~> 2.15.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -54,3 +67,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+group :ci do
+  gem 'bundle-audit'
+end
