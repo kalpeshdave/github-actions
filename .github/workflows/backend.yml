@@ -54,8 +54,6 @@ jobs:
           bundler-cache: true
       - name: Security audit dependencies
         run: bundle exec bundle-audit check --update
-      - name: Rubocop
-        run: bundle exec rubocop
   rubocop:
     runs-on: ubuntu-latest
     steps:
