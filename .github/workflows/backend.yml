@@ -11,7 +11,6 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-
   # docker
   # test:
   #   runs-on: ubuntu-latest
@@ -41,7 +40,6 @@ jobs:
   #     # Add or replace test runners here
   #     - name: Run tests
   #       run: bin/rake
-
   bundle-audit:
     needs: build
     runs-on: ubuntu-latest
